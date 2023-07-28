@@ -1,0 +1,168 @@
+;; Variables
+(defpoll brightness :interval "5s" "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
+(defpoll volume :interval "5s" "~/.config/eww/bar/scripts/volume.py")
+(defpoll IP   :interval "1m" "~/.config/eww/bar/scripts/ip.py")
+
+(defvar workspaces "[1, 2, 3, 4, 5]")
+(deflisten current_workspace "~/.config/eww/bar/scripts/workspace")
+
+(defvar br_reveal false)
+(defvar vol_reveal false)
+(defvar ip_rev false)
+(defvar time_rev false)
+(defvar bat_rev false)
+(defvar mem_rev false)
+(defvar cpu_rev false)
+
+(defvar eww "$HOME/Projects/Personal/eww/target/release/eww -c $HOME/.config/eww/bar")
+
+(defwidget bright []
+  (eventbox :onhover "${eww} update br_reveal=true"
+    :onhoverlost "${eww} update br_reveal=false"
+    (box :class "brightness" :space-evenly "false" :orientation "h"
+      (label :class "icon" :text "")
+      (revealer :transition "slideleft"
+        :reveal br_reveal
+        :duration "350ms"
+        (scale    :class "brightbar"
+          :value brightness
+          :orientation "h"
+          :tooltip "${brightness} %"
+          :max 100
+          :min 0
+        :onchange "brightnessctl set {}%" )))))
+
+(defwidget volume []
+  (eventbox :onhover "${eww} update vol_reveal=true"
+    :onhoverlost "${eww} update vol_reveal=false"
+    (box :class "module" :space-evenly "false" :orientation "h"
+      (label :class "icon" :text "")
+      (revealer :transition "slideleft"
+        :reveal vol_reveal
+        :duration "350ms"
+        (scale :class "volbar"
+          :value volume
+          :orientation "h"
+          :tooltip "${volume} %"
+          :max 100
+          :min 0
+        :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%" )))))
+
+(defwidget ip []
+  (eventbox :onhover "${eww} update ip_rev=true"
+    :onhoverlost "${eww} update ip_rev=false"
+    (box :vexpand "false" :hexpand "false" :space-evenly "false"
+      (label :class "icon" :text "")
+      (revealer :transition "slideright"
+        :reveal ip_rev
+        :duration "350ms"
+        (label :class "icon_txt"
+          :text IP
+          :orientation "h"
+        )))))
+
+(defwidget bat []
+  (eventbox :onhover "${eww} update bat_rev=true"
+    :onhoverlost "${eww} update bat_rev=false"
+    (box :vexpand "false" :hexpand "false" :space-evenly "false"
+      (label :class "icon" :text "")
+      (revealer :transition "slideright"
+        :reveal bat_rev
+        :duration "350ms"
+        (label :class "icon_txt"
+          :text "${EWW_BATTERY.BAT0.capacity} %"
+          :tooltip "${EWW_BATTERY.BAT0.status}"
+          :orientation "h"
+        )))))
+
+(defwidget mem []
+  (eventbox :onhover "${eww} update mem_rev=true"
+    :onhoverlost "${eww} update mem_rev=false"
+    (box :vexpand "false" :hexpand "false" :space-evenly "false"
+      (label :class "icon" :text "")
+      (revealer :transition "slideright"
+        :reveal mem_rev
+        :duration "350ms"
+        (label :class "icon_txt"
+          :text "${round(EWW_RAM.used_mem_perc, 2)} %"
+          :orientation "h"
+        )))))
+
+(defwidget cpu []
+  (eventbox :onhover "${eww} update cpu_rev=true"
+    :onhoverlost "${eww} update cpu_rev=false"
+    (box :vexpand "false" :hexpand "false" :space-evenly "false"
+      (label :class "icon" :text "")
+      (revealer :transition "slideright"
+        :reveal cpu_rev
+        :duration "350ms"
+        (label :class "icon_txt"
+          :text "${round(EWW_CPU.avg, 2)}"
+          :orientation "h"
+        )))))
+
+(defwidget sep []
+  (box :class "module" :vexpand "false" :hexpand "false"
+    (label :class "sep" :text "|")))
+
+(defwidget clock []
+  (eventbox :onhover "${eww} update time_rev=true"
+    :onhoverlost "${eww} update time_rev=false"
+    (box :class "clock" :space-evenly "false" :orientation "h" :spacing "3"
+      (label :text "${formattime(EWW_TIME, '%H')}" :class "clock_hour" )
+      (label :text ":" :class "clock_sep" )
+      (label :text "${formattime(EWW_TIME, '%M')}" :class "clock_minute")
+      (revealer :transition "slideleft"
+        :reveal time_rev
+        :duration "350ms"
+        (label :class "clock_date"
+          :text "${formattime(EWW_TIME, '%v')}"
+          :orientation "h"
+        )
+      ))))
+
+(defwidget workspaces []
+  (box :space-evenly true
+    (for workspace in workspaces
+      (label :class "${workspace == current_workspace ? "workspace-current" : "workspace-entry"}" :text "${workspace}")
+    )))
+
+(defwidget right []
+  (box :orientation "h"
+    :space-evenly false
+    :halign "end"
+    :class "right"
+    (bright)
+    (volume)
+    (ip)
+    (sep)
+    (bat)
+    (mem)
+    (cpu)
+    (sep)
+    (clock)))
+
+(defwidget left []
+  (box :orientation "h"
+    :space-evenly false
+    :halign "start"
+    :class "left"
+    (workspaces)
+  ))
+
+(defwidget widgets []
+  (box :class "widgets"
+    :orientation "h"
+    (left)
+    (right)
+  ))
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :x "0%"
+    :y "9px"
+    :width "98%"
+    :height "30px"
+  :anchor "bottom center")
+  :exclusive true
+  (widgets))

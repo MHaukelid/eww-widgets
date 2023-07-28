@@ -1,0 +1,97 @@
+*{
+	all: unset;
+	font-family: Liberation Mono;
+}
+
+.bar {
+	color: #e8e8e8;
+	font-size: 14px;
+}
+
+.left {
+	background-color: #181818;
+	border-radius: 10px;
+  padding: 0px 8px 0px 8px;
+}
+
+.right {
+	background-color: #181818;
+	border-radius: 10px;
+}
+
+tooltip.background {
+    background-color: #181818;
+    font-size: 14px;
+    border-radius: 10px;
+    color: #e8e8e8;
+		font-weight: bold;
+}
+
+tooltip label {
+    margin: 6px;
+}
+
+.workspace-entry {
+	font-weight: bold;
+  margin: 0px 4px 0px 4px
+}
+
+.workspace-current {
+	font-weight: bold;
+  text-decoration: underline #ba8baf;
+}
+
+.clock_sep {
+    font-size: 16;
+		font-weight: bold;
+    margin: 1px;
+}
+
+.clock_date {
+    color: #86c1b9;
+		font-weight: bold;
+		margin-left: 4px;
+}
+
+.clock_hour {
+    font-weight: bold;
+}
+
+.sep {
+	margin: 0px 4px 0px 4px
+}
+
+.brightness {
+	margin-left: 10px;
+}
+
+.clock {
+	margin-right: 10px;
+}
+
+.icon {
+	margin: 0px 4px 0px 4px;
+}
+
+.icon_txt {
+	font-weight: bold;
+}
+
+.brightbar trough highlight {
+  background-color: #a16946;
+  border-radius: 10px;
+}
+.volbar trough highlight {
+  background-color: #a1b56c;
+  border-radius: 10px;
+}
+
+scale trough {
+  all: unset;
+  background-color: #22242b;
+  box-shadow: 0 2px 3px 2px #06060b;
+  border-radius: 16px;
+  min-height: 10px;
+  min-width: 70px;
+  margin: 0px 10px 0px 0px;
+}
