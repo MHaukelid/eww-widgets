@@ -1,7 +1,6 @@
 ;; Variables
 (defpoll brightness :interval "5s" "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
 (defpoll volume :interval "5s" "~/.config/eww/bar/scripts/volume.py")
-(defpoll IP   :interval "1m" "~/.config/eww/bar/scripts/ip.py")
 
 (defvar workspaces "[1, 2, 3, 4, 5]")
 (deflisten current_workspace "~/.config/eww/bar/scripts/workspace")
@@ -14,13 +13,13 @@
 (defvar mem_rev false)
 (defvar cpu_rev false)
 
-(defvar eww "$HOME/Projects/Personal/eww/target/release/eww -c $HOME/.config/eww/bar")
+(defvar eww "/usr/bin/eww -c $HOME/.config/eww/bar")
 
 (defwidget bright []
   (eventbox :onhover "${eww} update br_reveal=true"
     :onhoverlost "${eww} update br_reveal=false"
     (box :class "brightness" :space-evenly "false" :orientation "h"
-      (label :class "icon" :text "")
+      (label :class "icon" :text "󰃟")
       (revealer :transition "slideleft"
         :reveal br_reveal
         :duration "350ms"
@@ -36,7 +35,7 @@
   (eventbox :onhover "${eww} update vol_reveal=true"
     :onhoverlost "${eww} update vol_reveal=false"
     (box :class "module" :space-evenly "false" :orientation "h"
-      (label :class "icon" :text "")
+      (label :class "icon" :text "󰕾")
       (revealer :transition "slideleft"
         :reveal vol_reveal
         :duration "350ms"
@@ -52,12 +51,12 @@
   (eventbox :onhover "${eww} update ip_rev=true"
     :onhoverlost "${eww} update ip_rev=false"
     (box :vexpand "false" :hexpand "false" :space-evenly "false"
-      (label :class "icon" :text "")
+      (label :class "icon" :text "󰤨")
       (revealer :transition "slideright"
         :reveal ip_rev
         :duration "350ms"
         (label :class "icon_txt"
-          :text IP
+          :text "D: ${EWW_NET.wlp0s20f3.NET_DOWN} U: ${EWW_NET.wlp0s20f3.NET_UP}"
           :orientation "h"
         )))))
 
@@ -65,7 +64,7 @@
   (eventbox :onhover "${eww} update bat_rev=true"
     :onhoverlost "${eww} update bat_rev=false"
     (box :vexpand "false" :hexpand "false" :space-evenly "false"
-      (label :class "icon" :text "")
+      (label :class "icon" :text "󰁹")
       (revealer :transition "slideright"
         :reveal bat_rev
         :duration "350ms"
@@ -79,12 +78,13 @@
   (eventbox :onhover "${eww} update mem_rev=true"
     :onhoverlost "${eww} update mem_rev=false"
     (box :vexpand "false" :hexpand "false" :space-evenly "false"
-      (label :class "icon" :text "")
+      (label :class "icon" :text "󰘚")
       (revealer :transition "slideright"
         :reveal mem_rev
         :duration "350ms"
         (label :class "icon_txt"
           :text "${round(EWW_RAM.used_mem_perc, 2)} %"
+          :tooltip "Memory"
           :orientation "h"
         )))))
 
@@ -92,12 +92,13 @@
   (eventbox :onhover "${eww} update cpu_rev=true"
     :onhoverlost "${eww} update cpu_rev=false"
     (box :vexpand "false" :hexpand "false" :space-evenly "false"
-      (label :class "icon" :text "")
+      (label :class "icon" :text "󰻠")
       (revealer :transition "slideright"
         :reveal cpu_rev
         :duration "350ms"
         (label :class "icon_txt"
-          :text "${round(EWW_CPU.avg, 2)}"
+          :text "${round(EWW_CPU.avg, 2)} %"
+          :tooltip "CPU"
           :orientation "h"
         )))))
 

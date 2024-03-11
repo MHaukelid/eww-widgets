@@ -4,7 +4,7 @@ from pathlib import Path
 import psutil
 from subprocess import run
 
-EXEC = Path("/home/mhl/Projects/Personal/eww/target/release/eww")
+EXEC = Path("/usr/bin/eww")
 BAR_CFG  = Path("/home/mhl/.config/eww/bar")
 
 # Start eww daemon

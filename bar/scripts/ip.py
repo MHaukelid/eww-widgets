@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 
-from socket import gethostbyname, gethostname
+import socket
 
 try:
-    print(gethostbyname(gethostname()))
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    s.connect(('', 0))
+    
+    print(s.getsockname()[0])
 except:
     print("Disconnected")
