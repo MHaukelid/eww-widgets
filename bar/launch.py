@@ -5,7 +5,7 @@ import psutil
 from subprocess import run
 
 EXEC = Path("/usr/bin/eww")
-BAR_CFG  = Path("/home/mhl/.config/eww/bar")
+BAR_CFG  = Path("~/.config/eww/bar")
 
 # Start eww daemon
 isEwwDeamonAlive = False

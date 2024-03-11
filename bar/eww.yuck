@@ -13,7 +13,7 @@
 (defvar mem_rev false)
 (defvar cpu_rev false)
 
-(defvar eww "/usr/bin/eww -c $HOME/.config/eww/bar")
+(defvar eww "/usr/bin/eww -c ~/.config/eww/bar")
 
 (defwidget bright []
   (eventbox :onhover "${eww} update br_reveal=true"
