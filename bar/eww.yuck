@@ -1,9 +1,9 @@
 ;; Variables
 (defpoll brightness :interval "5s" "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
-(defpoll volume :interval "5s" "~/.config/eww/bar/scripts/volume.py")
+(defpoll volume :interval "5s" "$HOME/.config/eww/bar/scripts/volume.py")
 
 (defvar workspaces "[1, 2, 3, 4, 5]")
-(deflisten current_workspace "~/.config/eww/bar/scripts/workspace")
+(deflisten current_workspace "$HOME/.config/eww/bar/scripts/workspace")
 
 (defvar br_reveal false)
 (defvar vol_reveal false)
